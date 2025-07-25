@@ -62,6 +62,7 @@ const MessageList = () => {
         addMessage(newMessage)
       }
     console.log(newMessage, "socket msg");
+    console.log(user?._id, "userId")
     });
 
     return () => {
@@ -73,32 +74,32 @@ const MessageList = () => {
     if (!selectedChatId) return <p>Select a chat</p>;
     if (loading || !chatData) return <p>Loading chat...</p>;
     return (
-        <div className="flex flex-col justify-between h-full">
-            <div className="max-h-20 border-b py-2 flex items-center space-x-3">
-                <img src={chatPartner?.profilePicture} width={50} height={50} className="rounded-full ml-2" alt="" />
-                <span className="text-2xl text-black">{chatPartner.name}</span>
-            </div>
-            <div className='flex flex-col space-y-3 overflow-auto pb-2 pt-2'>
-                {/* <div className="self-start bg-gray-200 text-black px-4 py-2 rounded-lg">Hey There!</div>
-                <div className="self-start bg-gray-200 text-black px-4 py-2 rounded-lg">How are you?</div>
-                <div className="self-end bg-purple-600 text-white px-4 py-2 rounded-lg">Hello!</div>
-                <div className="self-end bg-purple-600 text-white px-4 py-2 rounded-lg">I am fine!</div> */}
-                {
-                    (messages && messages.length !== 0)?(
-                        messages.map((message:IMessage) => (
-                            (message.sender === user?._id)?(
-                                <div key={message._id} className="self-end bg-purple-600 text-white px-4 py-2 rounded-lg">{message.content}</div>
-                                // <div key={message._id} className="self-end bg-purple-600 text-white px-4 py-2 rounded-lg">true</div>
-                            ):(
-                                <div key={message._id} className="self-start bg-gray-200 text-black px-4 py-2 rounded-lg">{message.content}</div>
-                            )
-                        ))
-                    ):(
-                        <div>start chating</div>
-                    )
-                }
-            </div>
-        </div>
+        <div className="flex flex-col h-full overflow-hidden">
+      {/* Chat Header */}
+      <div className="max-h-20 border-b py-2 flex items-center space-x-3 shrink-0">
+        <img src={chatPartner?.profilePicture} width={50} height={50} className="rounded-full ml-2" alt="" />
+        <span className="text-2xl text-black">{chatPartner.name}</span>
+      </div>
+
+      {/* Scrollable Messages */}
+      <div className="flex-1 overflow-y-auto flex flex-col space-y-3 px-2 pt-2 pb-4">
+        {messages && messages.length > 0 ? (
+          messages.map((message: IMessage) => (
+            message.sender === user?._id ? (
+              <div key={message._id} className="self-end bg-gray-200 text-black px-4 py-2 rounded-lg">
+                {message.content}
+              </div>
+            ) : (
+              <div key={message._id} className="self-start bg-purple-600 text-white px-4 py-2 rounded-lg">
+                {message.content}
+              </div>
+            )
+          ))
+        ) : (
+          <div className="text-center text-gray-400 mt-5">Start chatting</div>
+        )}
+      </div>
+    </div>
     );
 };
 
