@@ -68,8 +68,6 @@ const MessageList = () => {
         // setMessages(prev => [...prev, newMessage]);
         addMessage(newMessage)
       }
-    console.log(newMessage, "socket msg");
-    console.log(user?._id, "userId")
     });
 
     return () => {
@@ -96,10 +94,6 @@ const MessageList = () => {
               typeof message.sender === "string"
                 ? message.sender === user?._id
                 : message.sender && message.sender?._id === user?._id;
-
-                console.log("Message:", message);
-                console.log("Sender ID:", typeof message.sender === "string" ? message.sender : message.sender?._id);
-                console.log("User ID:", user?._id);
             return isSentByUser? (
               <div key={message._id} className="self-end bg-gray-200 text-black px-4 py-2 rounded-lg">
                 {message.content}
