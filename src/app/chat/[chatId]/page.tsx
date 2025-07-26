@@ -9,7 +9,6 @@ const ChatPage = () => {
     const params = useParams();
     const router = useRouter();
     const { setSelectedChat } = useChatStore();
-    console.log(params.chatId);
     useEffect(() => {
         if (!params.chatId) {
             router.push("/select-chat");

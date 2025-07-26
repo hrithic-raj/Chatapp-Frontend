@@ -17,10 +17,17 @@
 
 import { create } from 'zustand';
 
+interface IUser {
+  _id: string;
+  name: string;
+  email: string;
+  profilePicture?: string;
+}
+
 interface IMessage {
   _id: string;
   content: string;
-  sender: string;
+  sender: string | IUser;
   chat: string;
   createdAt?: string;
 }

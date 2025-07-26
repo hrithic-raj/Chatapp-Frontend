@@ -8,10 +8,17 @@ import { fetchChats, getChatById } from '@/services/chatService';
 import { useAuthStore } from '@/store/userStore';
 import { useEffect } from "react";
 
+interface IUser {
+  _id: string;
+  name: string;
+  email: string;
+  profilePicture?: string;
+}
+
 interface IMessage {
     _id: string;
     content: string;
-    sender: string;
+    sender: string | IUser;
     chat: string;
 }
 
@@ -84,8 +91,16 @@ const MessageList = () => {
       {/* Scrollable Messages */}
       <div className="flex-1 overflow-y-auto flex flex-col space-y-3 px-2 pt-2 pb-4">
         {messages && messages.length > 0 ? (
-          messages.map((message: IMessage) => (
-            message.sender === user?._id ? (
+          messages.map((message: IMessage) => {
+            const isSentByUser =
+              typeof message.sender === "string"
+                ? message.sender === user?._id
+                : message.sender && message.sender?._id === user?._id;
+
+                console.log("Message:", message);
+                console.log("Sender ID:", typeof message.sender === "string" ? message.sender : message.sender?._id);
+                console.log("User ID:", user?._id);
+            return isSentByUser? (
               <div key={message._id} className="self-end bg-gray-200 text-black px-4 py-2 rounded-lg">
                 {message.content}
               </div>
@@ -94,7 +109,7 @@ const MessageList = () => {
                 {message.content}
               </div>
             )
-          ))
+          })
         ) : (
           <div className="text-center text-gray-400 mt-5">Start chatting</div>
         )}
