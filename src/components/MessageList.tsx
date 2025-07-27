@@ -6,7 +6,7 @@ import { fetchMessages } from '@/services/messageService';
 import { useChatStore } from '@/store/chatStore';
 import { fetchChats, getChatById } from '@/services/chatService';
 import { useAuthStore } from '@/store/userStore';
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 interface IUser {
   _id: string;
@@ -35,6 +35,7 @@ const MessageList = () => {
         } = useChatStore();
 
     const { user } = useAuthStore();
+    const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
     // const { data: chat, isLoading:chatLoading } = useQuery({
     //     queryKey: ['chat', selectedChatId],
@@ -60,7 +61,7 @@ const MessageList = () => {
     };
 
     loadChat();
-
+    
     socket.emit("joinChat", selectedChatId);
 
     socket.on("receiveMessage", (newMessage: IMessage) => {
@@ -74,6 +75,13 @@ const MessageList = () => {
       socket.off("receiveMessage");
     };
   }, [selectedChatId]);
+
+  useEffect(()=>{
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+
+  },[messages])
 
     const chatPartner = chatData?.users?.find((u: any) => u._id !== user?._id);
     if (!selectedChatId) return <p>Select a chat</p>;
@@ -107,6 +115,7 @@ const MessageList = () => {
         ) : (
           <div className="text-center text-gray-400 mt-5">Start chatting</div>
         )}
+        <div ref={messagesEndRef} />
       </div>
     </div>
     );
