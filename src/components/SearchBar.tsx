@@ -24,7 +24,7 @@ const SearchBar = () => {
         enabled: !!search,
     });
 
-    const { mutate: createChat, isPending } = useMutation({
+    const { mutate: createChat } = useMutation({
       mutationFn: createOrGetChat,
       onSuccess: (chat) => {
           setSelectedChat(chat._id);

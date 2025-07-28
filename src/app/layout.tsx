@@ -3,8 +3,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import QueryProvider from "@/lib/query-provider";
 import {GoogleOAuthProvider} from '@react-oauth/google';
-import Sidebar from "@/components/Sidebar";
-import InitAuth from "@/components/InitAuth";
+// import Sidebar from "@/components/Sidebar";
+// import InitAuth from "@/components/InitAuth";
 
 const CLIENTID = process.env.NEXT_GOOGLE_CLIENT_ID!;
 

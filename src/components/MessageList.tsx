@@ -1,10 +1,10 @@
 "use client";
 
 import socket from "@/lib/socket";
-import { useQuery } from '@tanstack/react-query';
+// import { useQuery } from '@tanstack/react-query';
 import { fetchMessages } from '@/services/messageService';
 import { useChatStore } from '@/store/chatStore';
-import { fetchChats, getChatById } from '@/services/chatService';
+import { getChatById } from '@/services/chatService';
 import { useAuthStore } from '@/store/userStore';
 import { useEffect, useRef } from "react";
 

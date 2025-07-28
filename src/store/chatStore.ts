@@ -16,7 +16,7 @@
 
 
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
+// import { persist } from 'zustand/middleware';
 
 interface IUser {
   _id: string;
