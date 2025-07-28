@@ -10,7 +10,7 @@ export default function Home() {
     if (token) {
       router.replace("/chat");
     } else {
-      router.replace("/auth/login");
+      router.replace("/login");
     }
   }, [router]);
 

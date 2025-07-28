@@ -54,10 +54,19 @@ export default function ChatList() {
                         return (
                           <div key={chat._id} onClick={() => handleChatClick(chat._id)} className={`flex items-center gap-3 p-3 rounded-2xl hover:bg-gray-100 cursor-pointer ${selectedChatId===chat._id && 'bg-gray-100'}`}>
                                 <img src={chatPartner.profilePicture} alt={chatPartner.name} className="w-10 h-10 rounded-full" />
-                                <p className="font-semibold text-gray-600">{chatPartner.name}</p>
-                                {
-                                  chat.lastMessage && <p className="text-sm text-gray-500">{chatPartner.lastMessage}</p>
-                                }
+                                <div className="flex-1">
+                                  <p className="font-semibold text-gray-600">{chatPartner.name}</p>
+                                  {useChatStore.getState().lastMessages[chat._id]?.content && (
+                                    <p className="text-sm text-gray-500 truncate">
+                                      {useChatStore.getState().lastMessages[chat._id].content}
+                                    </p>
+                                  )}
+                                </div>
+                                {useChatStore.getState().unreadCounts[chat._id] > 0 && (
+                                  <span className="bg-purple-600 text-white rounded-full px-2 py-1 text-xs">
+                                    {useChatStore.getState().unreadCounts[chat._id]}
+                                  </span>
+                                )}
                           </div>
                         );
                     })}
@@ -66,4 +75,3 @@ export default function ChatList() {
       </div>
     );
   }
-  

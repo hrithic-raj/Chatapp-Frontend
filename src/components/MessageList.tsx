@@ -20,6 +20,7 @@ interface IMessage {
     content: string;
     sender: string | IUser;
     chat: string;
+    read?: boolean;
 }
 
 const MessageList = () => {
@@ -63,18 +64,43 @@ const MessageList = () => {
     loadChat();
     
     socket.emit("joinChat", selectedChatId);
+    
+    // Mark messages as read when chat is opened
+    if (user?._id) {
+      socket.emit("markMessagesAsRead", {
+        chatId: selectedChatId,
+        userId: user._id
+      });
+    }
 
     socket.on("receiveMessage", (newMessage: IMessage) => {
       if (newMessage.chat === selectedChatId) {
-        // setMessages(prev => [...prev, newMessage]);
-        addMessage(newMessage)
+        addMessage(newMessage);
+        // Update last message in store
+        useChatStore.getState().updateLastMessage(newMessage.chat, newMessage);
+        
+        // Update unread count for other users
+        const senderId = typeof newMessage.sender === 'string' ? newMessage.sender : newMessage.sender._id;
+        if (senderId !== user?._id) {
+          useChatStore.getState().updateUnreadCount(newMessage.chat, (prev) => prev + 1);
+        }
+      }
+    });
+
+    // Handle read receipts
+    socket.on("messagesRead", ({ chatId }) => {
+      if (chatId === selectedChatId) {
+        // Update messages with read status using current store state
+        const updatedMessages = messages.map(msg => ({...msg, read: true}));
+        setMessages(updatedMessages);
       }
     });
 
     return () => {
       socket.off("receiveMessage");
+      socket.off("messagesRead");
     };
-  }, [selectedChatId]);
+  }, [selectedChatId, user?._id]);
 
   useEffect(()=>{
     if (messagesEndRef.current) {

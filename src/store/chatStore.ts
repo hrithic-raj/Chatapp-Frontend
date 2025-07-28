@@ -16,6 +16,7 @@
 
 
 import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
 
 interface IUser {
   _id: string;
@@ -43,7 +44,11 @@ interface ChatState {
   setSelectedChat: (chatId: string) => void;
 
   chats: IChat[];
+  unreadCounts: Record<string, number>;
+  lastMessages: Record<string, IMessage>;
   setChats: (chats: IChat[]) => void;
+  updateUnreadCount: (chatId: string, updater: (prev: number) => number) => void;
+  updateLastMessage: (chatId: string, message: IMessage) => void;
 
   chatData: IChat | null;
   setChatData: (chat: IChat) => void;
@@ -61,7 +66,18 @@ export const useChatStore = create<ChatState>((set) => ({
   setSelectedChat: (chatId) => set({ selectedChatId: chatId }),
 
   chats: [],
+  unreadCounts: {},
+  lastMessages: {},
   setChats: (chats) => set({ chats }),
+  updateUnreadCount: (chatId, updater) => set(state => ({
+    unreadCounts: { 
+      ...state.unreadCounts, 
+      [chatId]: updater(state.unreadCounts[chatId] || 0) 
+    }
+  })),
+  updateLastMessage: (chatId, message) => set(state => ({
+    lastMessages: { ...state.lastMessages, [chatId]: message }
+  })),
 
   chatData: null,
   setChatData: (chat) => set({ chatData: chat }),
