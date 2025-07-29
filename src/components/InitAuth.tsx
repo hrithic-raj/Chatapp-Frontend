@@ -2,24 +2,32 @@
 import { useEffect } from "react";
 import { useAuthStore } from "@/store/userStore";
 import { refreshAccessToken } from "@/lib/refreshToken";
+import { useRouter } from "next/navigation";
 
 const InitAuth = () => {
   const { user } = useAuthStore();
+  const router = useRouter();
 
-   useEffect(() => {
-    const token = localStorage.getItem("accessToken");
+  useEffect(() => {
+    const checkAuth = async () => {
+      const token = localStorage.getItem("accessToken");
+      
+      if (!token && !user) {
+        try {
+          const refreshed = await refreshAccessToken();
+          if (!refreshed) {
+            router.push("/login");
+          }
+        } catch (error) {
+          router.push("/login");
+        }
+      }
+    };
 
-    if (!token && !user) {
-      // Wait 1 second to give cookies time to set
-      const timeout = setTimeout(() => {
-        refreshAccessToken();
-      }, 1000);
+    checkAuth();
+  }, [user, router]);
 
-      return () => clearTimeout(timeout); // clean up
-    }
-   }, []);
-
-  return null; // This component is just for running refresh logic
+  return null;
 };
 
 export default InitAuth;

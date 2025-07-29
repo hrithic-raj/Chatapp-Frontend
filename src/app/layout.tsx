@@ -4,7 +4,7 @@ import "./globals.css";
 import QueryProvider from "@/lib/query-provider";
 import {GoogleOAuthProvider} from '@react-oauth/google';
 // import Sidebar from "@/components/Sidebar";
-// import InitAuth from "@/components/InitAuth";
+import InitAuth from "@/components/InitAuth";
 
 const CLIENTID = process.env.NEXT_GOOGLE_CLIENT_ID!;
 
@@ -35,7 +35,7 @@ export default function RootLayout({
       >
         <GoogleOAuthProvider clientId={CLIENTID}>
           <QueryProvider>
-            {/* <InitAuth /> */}
+            <InitAuth />
             {/* <Sidebar /> */}
             <main className="flex-1">{children}</main>
           </QueryProvider>
