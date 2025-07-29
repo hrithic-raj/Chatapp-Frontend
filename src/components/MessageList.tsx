@@ -8,20 +8,9 @@ import { getChatById } from '@/services/chatService';
 import { useAuthStore } from '@/store/userStore';
 import { useEffect, useRef } from "react";
 
-interface IUser {
-  _id: string;
-  name: string;
-  email: string;
-  profilePicture?: string;
-}
+import Image from "next/image";
 
-interface IMessage {
-    _id: string;
-    content: string;
-    sender: string | IUser;
-    chat: string;
-    read?: boolean;
-}
+import type { Message, User } from "@/types/chat";
 
 const MessageList = () => {
     const {
@@ -73,7 +62,7 @@ const MessageList = () => {
       });
     }
 
-    socket.on("receiveMessage", (newMessage: IMessage) => {
+    socket.on("receiveMessage", (newMessage: Message) => {
       if (newMessage.chat === selectedChatId) {
         addMessage(newMessage);
         // Update last message in store
@@ -109,21 +98,27 @@ const MessageList = () => {
 
   },[messages])
 
-    const chatPartner = chatData?.users?.find((u: any) => u._id !== user?._id);
+    const chatPartner = chatData?.users?.find((u: User) => u._id !== user?._id);
     if (!selectedChatId) return <p>Select a chat</p>;
     if (loading || !chatData) return <p>Loading chat...</p>;
     return (
         <div className="flex flex-col h-full overflow-hidden">
       {/* Chat Header */}
       <div className="max-h-20 border-b py-2 flex items-center space-x-3 shrink-0">
-        <img src={chatPartner?.profilePicture} width={50} height={50} className="rounded-full ml-2" alt="" />
-        <span className="text-2xl text-black">{chatPartner.name}</span>
+        <Image 
+          src={chatPartner?.profilePicture || '/default-avatar.png'} 
+          width={50} 
+          height={50} 
+          className="rounded-full ml-2"
+          alt="Chat partner avatar"
+        />
+        <span className="text-2xl text-black">{chatPartner?.name}</span>
       </div>
 
       {/* Scrollable Messages */}
       <div className="flex-1 overflow-y-auto flex flex-col space-y-3 px-2 pt-2 pb-4">
         {messages && messages.length > 0 ? (
-          messages.map((message: IMessage) => {
+          messages.map((message: Message) => {
             const isSentByUser =
               typeof message.sender === "string"
                 ? message.sender === user?._id

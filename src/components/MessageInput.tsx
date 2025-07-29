@@ -3,6 +3,7 @@ import { useChatStore } from "@/store/chatStore";
 import { useAuthStore } from "@/store/userStore";
 import { Send } from "lucide-react";
 import { useState } from "react";
+import type { SocketMessage } from "@/types/socket";
 
 export default function MessageInput() {
   const [message, setMessage] = useState("");
@@ -17,9 +18,9 @@ export default function MessageInput() {
       content: message,
       read: false,
       createdAt: new Date().toISOString(),
-    };
+    } as const;
 
-    socket.emit("sendMessage", newMessage);
+    socket.emit("sendMessage", newMessage as SocketMessage);
     console.log("New Message", newMessage);
     setMessage("");
   }

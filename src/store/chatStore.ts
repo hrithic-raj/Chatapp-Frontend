@@ -18,44 +18,25 @@
 import { create } from 'zustand';
 // import { persist } from 'zustand/middleware';
 
-interface IUser {
-  _id: string;
-  name: string;
-  email: string;
-  profilePicture?: string;
-}
-
-interface IMessage {
-  _id: string;
-  content: string;
-  sender: string | IUser;
-  chat: string;
-  createdAt?: string;
-}
-
-interface IChat {
-  _id: string;
-  users: any[];
-  lastMessage?: IMessage;
-}
+import type { Chat, Message } from "@/types/chat";
 
 interface ChatState {
   selectedChatId: string | null;
   setSelectedChat: (chatId: string) => void;
 
-  chats: IChat[];
+  chats: Chat[];
   unreadCounts: Record<string, number>;
-  lastMessages: Record<string, IMessage>;
-  setChats: (chats: IChat[]) => void;
+  lastMessages: Record<string, Message>;
+  setChats: (chats: Chat[]) => void;
   updateUnreadCount: (chatId: string, updater: (prev: number) => number) => void;
-  updateLastMessage: (chatId: string, message: IMessage) => void;
+  updateLastMessage: (chatId: string, message: Message) => void;
 
-  chatData: IChat | null;
-  setChatData: (chat: IChat) => void;
+  chatData: Chat | null;
+  setChatData: (chat: Chat) => void;
 
-  messages: IMessage[];
-  setMessages: (messages: IMessage[]) => void;
-  addMessage: (message: IMessage) => void;
+  messages: Message[];
+  setMessages: (messages: Message[]) => void;
+  addMessage: (message: Message) => void;
 
   loading: boolean;
   setLoading: (state: boolean) => void;
@@ -82,7 +63,7 @@ export const useChatStore = create<ChatState>((set) => ({
   chatData: null,
   setChatData: (chat) => set({ chatData: chat }),
 
-  messages: [] as IMessage[],
+  messages: [] as Message[],
   setMessages: (messages) => set({ messages }),
   addMessage: (message) => set((state) => ({ messages: [...state.messages, message] })),
 

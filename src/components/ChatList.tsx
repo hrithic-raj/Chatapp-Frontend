@@ -4,14 +4,16 @@ import { useAuthStore } from "@/store/userStore";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import Image from "next/image";
+import type { Chat, User } from "@/types/chat";
 
-// interface IChat {
-//     _id: string;
-//     user: {
-//         name: string;
-//     };
-//     lastMessage?: string;
-// }
+//// interface IChat {
+////     _id: string;
+////     user: {
+////         name: string;
+////     };
+////     lastMessage?: string;
+//// }
 
 export default function ChatList() {
   const { user } = useAuthStore();
@@ -24,7 +26,7 @@ export default function ChatList() {
     //   { _id: "3", name: "Anil", lastMessage: "April Fool's Day", time: "9:52 PM" },
     // ];
   
-    const { data: fetchedChats=[] , isLoading } = useQuery({
+  const { data: fetchedChats = [] as Chat[], isLoading } = useQuery<Chat[]>({
       queryKey: ['chats'],
       queryFn: fetchChats,
     });
@@ -46,14 +48,20 @@ export default function ChatList() {
                 <p>No chats found. Start a conversation!</p>
             ) : (
                 <ul className="p-1">
-                    {chats.map((chat: any) => {
-                        const chatPartner = chat.users.find((u: any) => u._id !== user?._id);
+                    {chats.map((chat: Chat) => {
+                        const chatPartner = chat.users.find((u: User) => u._id !== user?._id);
 
                         if (!chatPartner) return null;
 
                         return (
                           <div key={chat._id} onClick={() => handleChatClick(chat._id)} className={`flex items-center gap-3 p-3 rounded-2xl hover:bg-gray-100 cursor-pointer ${selectedChatId===chat._id && 'bg-gray-100'}`}>
-                                <img src={chatPartner.profilePicture} alt={chatPartner.name} className="w-10 h-10 rounded-full" />
+                                <Image 
+                                  src={chatPartner.profilePicture} 
+                                  alt={chatPartner.name} 
+                                  width={40} 
+                                  height={40} 
+                                  className="rounded-full"
+                                />
                                 <div className="flex-1">
                                   <p className="font-semibold text-gray-600">{chatPartner.name}</p>
                                   {useChatStore.getState().lastMessages[chat._id]?.content && (
