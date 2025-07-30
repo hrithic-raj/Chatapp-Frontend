@@ -60,15 +60,20 @@ const MessageList = () => {
         chatId: selectedChatId,
         userId: user._id
       });
+      // Reset unread count when opening chat
+      useChatStore.getState().updateUnreadCount(selectedChatId, () => 0);
     }
 
     socket.on("receiveMessage", (newMessage: Message) => {
-      if (newMessage.chat === selectedChatId) {
+      const currentChatId = useChatStore.getState().selectedChatId;
+      const isActiveChat = newMessage.chat === currentChatId;
+      
+      // Always update last message
+      useChatStore.getState().updateLastMessage(newMessage.chat, newMessage);
+
+      if (isActiveChat) {
         addMessage(newMessage);
-        // Update last message in store
-        useChatStore.getState().updateLastMessage(newMessage.chat, newMessage);
-        
-        // Update unread count for other users
+      } else {
         const senderId = typeof newMessage.sender === 'string' ? newMessage.sender : newMessage.sender._id;
         if (senderId !== user?._id) {
           useChatStore.getState().updateUnreadCount(newMessage.chat, (prev) => prev + 1);
