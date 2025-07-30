@@ -124,11 +124,11 @@ const MessageList = () => {
                 ? message.sender === user?._id
                 : message.sender && message.sender?._id === user?._id;
             return isSentByUser? (
-              <div key={message._id} className="self-end bg-gray-200 text-black px-4 py-2 rounded-lg">
+              <div key={message._id} className="self-end bg-gray-200 text-black px-4 py-2 rounded-lg whitespace-pre-wrap">
                 {message.content}
               </div>
             ) : (
-              <div key={message._id} className="self-start bg-purple-600 text-white px-4 py-2 rounded-lg">
+              <div key={message._id} className="self-start bg-purple-600 text-white px-4 py-2 rounded-lg whitespace-pre-wrap">
                 {message.content}
               </div>
             )

@@ -62,7 +62,7 @@ export default function ChatList() {
                                   height={40} 
                                   className="rounded-full"
                                 />
-                                <div className="flex-1">
+                                <div className="flex-1 max-w-full overflow-hidden">
                                   <p className="font-semibold text-gray-600">{chatPartner.name}</p>
                                   {useChatStore.getState().lastMessages[chat._id]?.content && (
                                     <p className="text-sm text-gray-500 truncate">

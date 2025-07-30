@@ -1,3 +1,48 @@
+// import socket from "@/lib/socket";
+// import { useChatStore } from "@/store/chatStore";
+// import { useAuthStore } from "@/store/userStore";
+// import { Send } from "lucide-react";
+// import { useState } from "react";
+// import type { SocketMessage } from "@/types/socket";
+
+// export default function MessageInput() {
+//   const [message, setMessage] = useState("");
+//   const { selectedChatId } = useChatStore();
+//   const { user } = useAuthStore();
+//   const sendMessage = () => {
+//     if(!message.trim()) return;
+
+//     const newMessage = {
+//       chatId: selectedChatId,
+//       sender: user?._id,
+//       content: message,
+//       read: false,
+//       createdAt: new Date().toISOString(),
+//     } as const;
+
+//     socket.emit("sendMessage", newMessage as SocketMessage);
+//     console.log("New Message", newMessage);
+//     setMessage("");
+//   }
+
+//   return (
+//     <div className="flex items-center p-3">
+//       <input 
+//         type="text"
+//         placeholder="Type your message..."
+//         value={message}
+//         onChange={(e) => setMessage(e.target.value)}
+//         className="w-full p-2 bg-[#D8DEEC] rounded-lg text-gray-500 placeholder:text-gray-500 focus:outline-1 outline-gray-500"
+//       />
+//       <button className="ml-3 bg-purple-600 text-white p-2 rounded-lg" onClick={sendMessage}>
+//         <Send size={20} />
+//       </button>
+//     </div>
+//   );
+// }
+
+
+
 import socket from "@/lib/socket";
 import { useChatStore } from "@/store/chatStore";
 import { useAuthStore } from "@/store/userStore";
@@ -9,8 +54,9 @@ export default function MessageInput() {
   const [message, setMessage] = useState("");
   const { selectedChatId } = useChatStore();
   const { user } = useAuthStore();
+
   const sendMessage = () => {
-    if(!message.trim()) return;
+    if (!message.trim()) return;
 
     const newMessage = {
       chatId: selectedChatId,
@@ -23,18 +69,29 @@ export default function MessageInput() {
     socket.emit("sendMessage", newMessage as SocketMessage);
     console.log("New Message", newMessage);
     setMessage("");
-  }
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage();
+    }
+  };
 
   return (
-    <div className="flex items-center p-3">
-      <input 
-        type="text"
+    <div className="flex items-end p-3">
+      <textarea
         placeholder="Type your message..."
         value={message}
         onChange={(e) => setMessage(e.target.value)}
-        className="w-full p-2 bg-[#D8DEEC] rounded-lg text-gray-500 placeholder:text-gray-500 focus:outline-1 outline-gray-500"
+        onKeyDown={handleKeyDown}
+        rows={1}
+        className="w-full p-2 bg-[#D8DEEC] rounded-lg text-gray-500 placeholder:text-gray-500 focus:outline-1 outline-gray-500 resize-none"
       />
-      <button className="ml-3 bg-purple-600 text-white p-2 rounded-lg" onClick={sendMessage}>
+      <button
+        className="ml-3 bg-purple-600 text-white p-2 rounded-lg"
+        onClick={sendMessage}
+      >
         <Send size={20} />
       </button>
     </div>
