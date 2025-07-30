@@ -25,18 +25,3 @@ const ChatPage = () => {
 };
 
 export default ChatPage;
-
-
-
-
-// import ChatSidebar from "@/components/ChatSidebar";
-// import ChatWindow from "@/components/ChatWindow";
-
-// export default function Messages() {
-//   return (
-//     <div className="flex w-full h-full space-x-5 pl-5">
-//       <ChatSidebar />
-//       <ChatWindow />
-//     </div>
-//   );
-// }

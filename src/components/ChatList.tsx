@@ -7,24 +7,10 @@ import { useEffect } from "react";
 import Image from "next/image";
 import type { Chat, User } from "@/types/chat";
 
-//// interface IChat {
-////     _id: string;
-////     user: {
-////         name: string;
-////     };
-////     lastMessage?: string;
-//// }
-
 export default function ChatList() {
   const { user } = useAuthStore();
   const router = useRouter();
   const { chats, setChats, selectedChatId, setSelectedChat } = useChatStore();
-  
-  // const chats = [
-    //   { _id: "1", name: "Friends Forever", lastMessage: "Hahahaha!", time: "9:52 PM" },
-    //   { _id: "2", name: "Mera Gang", lastMessage: "Kyuuuu???", time: "12:31 PM" },
-    //   { _id: "3", name: "Anil", lastMessage: "April Fool's Day", time: "9:52 PM" },
-    // ];
   
   const { data: fetchedChats = [] as Chat[], isLoading } = useQuery<Chat[]>({
       queryKey: ['chats'],
