@@ -20,6 +20,7 @@ const InitAuth = () => {
           }
         } catch (error) {
           router.push("/login");
+          console.error(error);
         }
       }
     };
