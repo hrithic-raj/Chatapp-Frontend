@@ -44,7 +44,7 @@ const SearchBar = () => {
       setSearch('');
     }
     return (
-        <div className="relative">
+        <div className="relative max-h-[30%]">
             <input
                 type="text"
                 placeholder="Search..."

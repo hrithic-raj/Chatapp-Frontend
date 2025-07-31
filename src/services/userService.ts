@@ -5,3 +5,10 @@ export const searchUsers = async (query: string) => {
     const res = await apiClient.get(`/users/search?query=${query}`);
     return res.data;
 };
+
+export const getUserProfile = async (query: string) => {
+    if (!query) return [];
+    const res = await apiClient.get(`/users`);
+    return res.data;
+};
+
