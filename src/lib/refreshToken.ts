@@ -1,6 +1,18 @@
 // lib/refreshToken.ts
+import axios from 'axios';
 import apiClient from "@/lib/axios.config";
 import { useAuthStore } from "@/store/userStore";
+
+export const verifyToken = async (token: string) => {
+  try {
+    const response = await axios.post('/api/auth/refresh', null, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    return response.data.user;
+  } catch (error) {
+    return null;
+  }
+};
 
 export const refreshAccessToken = async () => {
   try {

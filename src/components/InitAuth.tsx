@@ -1,34 +1,29 @@
 "use client";
+import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useAuthStore } from "@/store/userStore";
-import { refreshAccessToken } from "@/lib/refreshToken";
-import { useRouter } from "next/navigation";
+import axios from "@/lib/axios.config";
 
-const InitAuth = () => {
-  const { user } = useAuthStore();
+export default function InitAuth() {
   const router = useRouter();
+  const { setUser } = useAuthStore();
 
   useEffect(() => {
-    const checkAuth = async () => {
-      const token = localStorage.getItem("accessToken");
-      
-      if (!token && !user) {
-        try {
-          const refreshed = await refreshAccessToken();
-          if (!refreshed) {
-            router.push("/login");
-          }
-        } catch (error) {
-          router.push("/login");
-          console.error(error);
+    (async () => {
+      try {
+        const response = await axios.get("/api/users/profile");
+        const user = response.data;
+        
+        if (user?.newUser || !user?.username) {
+          router.push("/set-username");
+        } else {
+          setUser(user);
         }
+      } catch (error) {
+        router.push("/login");
       }
-    };
-
-    checkAuth();
-  }, [user, router]);
+    })();
+  }, [router, setUser]);
 
   return null;
-};
-
-export default InitAuth;
+}

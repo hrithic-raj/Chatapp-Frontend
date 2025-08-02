@@ -5,7 +5,9 @@ interface User {
   _id: string;
   name: string;
   email: string;
+  username?: string;
   profilePicture?: string;
+  newUser?: boolean;
 }
 
 interface AuthState {
