@@ -1,5 +1,5 @@
 import axios, { AxiosError, AxiosRequestConfig, InternalAxiosRequestConfig } from "axios";
-import { useAuthStore } from "@/store/userStore"; // ✅ already correct
+import { useAuthStore } from "@/store/userStore";
 
 const apiClient = axios.create({
   baseURL: process.env.NEXT_PUBLIC_BACKEND_URL,

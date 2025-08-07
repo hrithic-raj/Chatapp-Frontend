@@ -86,7 +86,7 @@ export async function middleware(req: NextRequest, _ev: NextFetchEvent) {
     }
 
     const refreshToken = req.cookies.get('refreshToken')?.value
-
+    console.log("refreshtoken kitiyallodaa", refreshToken)
     if (!refreshToken) {
         if (pathname !== '/login') {
             url.pathname = '/login'
@@ -98,17 +98,17 @@ export async function middleware(req: NextRequest, _ev: NextFetchEvent) {
     let decoded: any
     let user: any
 
-    // ✅ Only verify token if not already on /login
     if (pathname !== '/login') {
         try {
             decoded = await verifyRefreshToken(refreshToken)
-            user = decoded.user
+            console.log(user);
+            user = decoded?.user
         } catch (err) {
+            console.log("error anallodaa", err)
             url.pathname = '/login'
             return NextResponse.redirect(url)
         }
     } else {
-        // Skip verifying token if already on /login
         return NextResponse.next()
     }
 

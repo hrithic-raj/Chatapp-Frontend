@@ -11,7 +11,8 @@ export const verifyRefreshToken = async (refreshToken: string) => {
     const response = await apiClient.post('/auth/verify-token', { refreshToken });
     return response.data;
   } catch (error: any) {
-    throw new Error(error.response?.data?.message || 'Failed to set username');
+    console.log("userService error usendeii", error);
+    // throw new Error(error.response?.data?.message || 'Failed to verify refreshToken');
   }
 };
 
