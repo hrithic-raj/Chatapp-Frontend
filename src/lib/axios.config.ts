@@ -23,13 +23,12 @@ apiClient.interceptors.response.use(
   (response) => response,
   async (error: AxiosError) => {
     const originalRequest = error.config as AxiosRequestConfig & { _retry?: boolean };
-
     if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
-
       try {
         const response = await apiClient.post("/auth/refresh-token", {}, { withCredentials: true });
-
+        
+        console.log("Ethittund", response)
         const newAccessToken = response.data.newAccessToken;
         const user = response.data.user;
 

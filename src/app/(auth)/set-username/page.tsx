@@ -13,7 +13,7 @@ export default function SetUsernamePage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await axios.post('/api/users/username', { username });
+      const response = await axios.post('/users/username', { username });
       if (response.status === 200) {
         setUser({ 
           ...useAuthStore.getState().user!,

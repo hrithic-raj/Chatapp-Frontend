@@ -2,8 +2,7 @@
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useAuthStore } from "@/store/userStore";
-import axios from "@/lib/axios.config";
-
+import apiClient from "@/lib/axios.config";
 export default function InitAuth() {
   const router = useRouter();
   const { setUser } = useAuthStore();
@@ -11,16 +10,16 @@ export default function InitAuth() {
   useEffect(() => {
     (async () => {
       try {
-        const response = await axios.get("/api/users/profile");
-        const user = response.data;
-        
-        if (user?.newUser || !user?.username) {
+        const { data: user } = await apiClient.get("/users/profile");
+        setUser(user);
+        console.log("user got from initAuth", user)
+        if (!user?.username || user?.newUser) {
           router.push("/set-username");
-        } else {
-          setUser(user);
+        } else if (!window.location.pathname.startsWith('/chat')) {
+          router.replace("/chat");
         }
       } catch (error) {
-        router.push("/login");
+        // Error handling done by interceptor
       }
     })();
   }, [router, setUser]);

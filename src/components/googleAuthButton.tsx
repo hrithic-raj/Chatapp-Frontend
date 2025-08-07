@@ -18,7 +18,7 @@ const GoogleAuthButton: React.FC = () => {
                 if(accessToken){
                     localStorage.setItem('accessToken', accessToken);
                     setUser(res.data.user);
-                    navigate.push('/');
+                    navigate.push('/chat');
                 }
             }catch(error){
                 console.error("Google auth failed", error);

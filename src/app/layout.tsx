@@ -35,7 +35,7 @@ export default function RootLayout({
       >
         <GoogleOAuthProvider clientId={CLIENTID}>
           <QueryProvider>
-            <InitAuth />
+            {/* <InitAuth /> */}
             {/* <Sidebar /> */}
             <main className="flex-1">{children}</main>
           </QueryProvider>

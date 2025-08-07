@@ -1,11 +1,10 @@
 // lib/refreshToken.ts
-import axios from 'axios';
 import apiClient from "@/lib/axios.config";
 import { useAuthStore } from "@/store/userStore";
 
 export const verifyToken = async (token: string) => {
   try {
-    const response = await axios.post('/api/auth/refresh', null, {
+    const response = await apiClient.post('/auth/verify', null, {
       headers: { Authorization: `Bearer ${token}` }
     });
     return response.data.user;
@@ -14,17 +13,17 @@ export const verifyToken = async (token: string) => {
   }
 };
 
-export const refreshAccessToken = async () => {
-  try {
-    const res = await apiClient.get("/auth/refresh", { withCredentials: true });
-    const { newAccessToken, user } = res.data;
+// export const refreshAccessToken = async () => {
+//   try {
+//     const res = await apiClient.post("/auth/refresh-token", null, { withCredentials: true });
+//     const { newAccessToken, user } = res.data;
 
-    localStorage.setItem("accessToken", newAccessToken);
-    useAuthStore.getState().setUser(user);
-    return true;
-  } catch (err) {
-    console.error("Token refresh failed", err);
-    useAuthStore.getState().logout(); // if refresh fails
-    return false;
-  }
-};
+//     localStorage.setItem("accessToken", newAccessToken);
+//     useAuthStore.getState().setUser(user);
+//     return true;
+//   } catch (err) {
+//     console.error("Token refresh failed", err);
+//     useAuthStore.getState().logout(); // if refresh fails
+//     return false;
+//   }
+// };
