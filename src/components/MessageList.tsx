@@ -38,7 +38,7 @@ const MessageList = () => {
     //     enabled: !!selectedChatId
     // });
 
-    useEffect(() => {
+  useEffect(() => {
     if (!selectedChatId) return;
 
     const loadChat = async () => {
@@ -94,7 +94,7 @@ const MessageList = () => {
       socket.off("receiveMessage");
       socket.off("messagesRead");
     };
-  }, [selectedChatId, user?._id]);
+  }, [selectedChatId, user?._id, addMessage, setChatData, setLoading, setMessages]);
 
   useEffect(()=>{
     if (messagesEndRef.current) {

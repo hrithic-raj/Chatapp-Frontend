@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { searchUsers } from '@/services/userService';
 import { useChatStore } from '@/store/chatStore';
@@ -63,7 +64,13 @@ const SearchBar = () => {
                             onClick={()=>handleSearchClick(user._id)}
                         >
                           {user.profilePicture && 
-                            <img src={user.profilePicture} alt="" className='w-10 rounded-full'/>
+                            <Image 
+                              src={user.profilePicture} 
+                              alt="Profile" 
+                              width={40}
+                              height={40}
+                              className='w-10 rounded-full'
+                            />
                           }
                             {user.name}
                         </div>

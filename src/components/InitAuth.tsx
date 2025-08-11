@@ -19,6 +19,7 @@ export default function InitAuth() {
           router.replace("/chat");
         }
       } catch (error) {
+        console.error("error in initAuth", error)
         // Error handling done by interceptor
       }
     })();

@@ -22,8 +22,13 @@ export default function SetUsernamePage() {
         });
         router.push('/chat');
       }
-    } catch (err: any) {
-      setError(err.response?.data?.message || 'Error setting username');
+    } catch (error: unknown) {
+      let message = 'Error setting username';
+      if (error instanceof Error && 'response' in error) {
+        const axiosError = error as { response?: { data?: { message?: string } }};
+        message = axiosError.response?.data?.message || message;
+      }
+      setError(message);
     }
   };
 

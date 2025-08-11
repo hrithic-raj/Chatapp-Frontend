@@ -1,6 +1,5 @@
 // lib/refreshToken.ts
 import apiClient from "@/lib/axios.config";
-import { useAuthStore } from "@/store/userStore";
 
 export const verifyToken = async (token: string) => {
   try {
@@ -9,6 +8,7 @@ export const verifyToken = async (token: string) => {
     });
     return response.data.user;
   } catch (error) {
+    console.error("verifyToken failed", error)
     return null;
   }
 };
