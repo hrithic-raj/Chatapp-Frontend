@@ -28,10 +28,8 @@ export async function middleware(req: NextRequest) {
     if (pathname !== '/login') {
         
         try {
-            console.log("entered into .")
             const tokenResponse = await verifyRefreshToken(refreshToken);
             user = tokenResponse.user;
-            console.log("User data:", user);
         } catch (err) {
             console.log("error anallodaa", err)
             url.pathname = '/login'
@@ -41,22 +39,22 @@ export async function middleware(req: NextRequest) {
         return NextResponse.next()
     }
 
-    // const isNewUser = user?.newUser
+    const isNewUser = user?.newUser
 
-    // if (pathname === '/login') {
-    //     url.pathname = '/chat'
-    //     return NextResponse.redirect(url)
-    // }
+    if (pathname === '/login') {
+        url.pathname = '/chat'
+        return NextResponse.redirect(url)
+    }
 
-    // if (isNewUser && pathname !== '/set-username') {
-    //     url.pathname = '/set-username'
-    //     return NextResponse.redirect(url)
-    // }
+    if (isNewUser && pathname !== '/set-username') {
+        url.pathname = '/set-username'
+        return NextResponse.redirect(url)
+    }
 
-    // if (!isNewUser && pathname === '/set-username') {
-    //     url.pathname = '/chat'
-    //     return NextResponse.redirect(url)
-    // }
+    if (!isNewUser && pathname === '/set-username') {
+        url.pathname = '/chat'
+        return NextResponse.redirect(url)
+    }
 
     return NextResponse.next()
 }

@@ -29,8 +29,7 @@ apiClient.interceptors.response.use(
       originalRequest._retry = true;
       try {
         const response = await apiClient.post("/auth/refresh-token", {}, { withCredentials: true });
-        
-        console.log("Ethittund", response)
+
         const newAccessToken = response.data.newAccessToken;
         const user = response.data.user;
 
