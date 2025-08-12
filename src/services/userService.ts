@@ -6,13 +6,13 @@ export const searchUsers = async (query: string) => {
     return res.data;
 };
 
-interface TokenResponse {
-  user: {
-    _id: string;
-    newUser?: boolean;
-    username?: string;
-  };
-}
+// interface TokenResponse {
+//   user: {
+//     _id: string;
+//     newUser?: boolean;
+//     username?: string;
+//   };
+// }
 
 export const verifyRefreshToken = async (refreshToken: string)=> {
   // try {

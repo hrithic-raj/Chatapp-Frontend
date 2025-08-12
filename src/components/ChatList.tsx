@@ -6,7 +6,6 @@ import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import Image from "next/image";
 import type { Chat, User } from "@/types/chat";
-import { FiSettings } from 'react-icons/fi';
 import ProfileBar from "./ProfileBar";
 
 export default function ChatList() {
