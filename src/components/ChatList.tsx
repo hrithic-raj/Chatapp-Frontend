@@ -83,7 +83,7 @@ export default function ChatList() {
                 </div>
                 <div className="flex flex-col justify-center">
                   <span className="text-xl font-bold text-gray-600">{user?.name}</span>
-                  <span className="text-gray-500">@hrj_punda</span>
+                  <span className="text-gray-500">@ {user?.username}</span>
                 </div>
               </div>
               <div className="flex justify-center items-center w-10 h-10 rounded-full mr-1">
