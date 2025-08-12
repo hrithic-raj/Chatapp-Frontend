@@ -38,9 +38,11 @@ export default function ChatList() {
     if (isLoading) return <p>Loading...</p>;
     return (
       <div className="bg-white rounded-2xl min-h-[90%] flex flex-col justify-between">
-        <div className="flex flex-col overflow-auto">
+        <div className="flex flex-col overflow-auto h-full">
           {chats && chats.length === 0 ? (
-                  <p>No chats found. Start a conversation!</p>
+                  <div className="min-h-full flex justify-center items-center">
+                    <p>No chats found. Start a conversation!</p>
+                  </div>
               ) : (
                   <ul className="p-1">
                       {chats.map((chat: Chat) => {
