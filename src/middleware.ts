@@ -2,7 +2,6 @@ import { NextResponse, NextRequest } from 'next/server'
 import { verifyRefreshToken } from './services/userService'
 
 export async function middleware(req: NextRequest) {
-    // Fix unused parameter and type definitions
     const url = req.nextUrl.clone()
     const pathname = url.pathname
 
@@ -27,7 +26,9 @@ export async function middleware(req: NextRequest) {
     let user: { newUser?: boolean; username?: string } = {};
 
     if (pathname !== '/login') {
+        
         try {
+            console.log("entered into .")
             const tokenResponse = await verifyRefreshToken(refreshToken);
             user = tokenResponse.user;
             console.log("User data:", user);
@@ -40,22 +41,22 @@ export async function middleware(req: NextRequest) {
         return NextResponse.next()
     }
 
-    const isNewUser = user?.newUser
+    // const isNewUser = user?.newUser
 
-    if (pathname === '/login') {
-        url.pathname = '/chat'
-        return NextResponse.redirect(url)
-    }
+    // if (pathname === '/login') {
+    //     url.pathname = '/chat'
+    //     return NextResponse.redirect(url)
+    // }
 
-    if (isNewUser && pathname !== '/set-username') {
-        url.pathname = '/set-username'
-        return NextResponse.redirect(url)
-    }
+    // if (isNewUser && pathname !== '/set-username') {
+    //     url.pathname = '/set-username'
+    //     return NextResponse.redirect(url)
+    // }
 
-    if (!isNewUser && pathname === '/set-username') {
-        url.pathname = '/chat'
-        return NextResponse.redirect(url)
-    }
+    // if (!isNewUser && pathname === '/set-username') {
+    //     url.pathname = '/chat'
+    //     return NextResponse.redirect(url)
+    // }
 
     return NextResponse.next()
 }

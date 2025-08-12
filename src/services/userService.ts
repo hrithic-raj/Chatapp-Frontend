@@ -14,14 +14,34 @@ interface TokenResponse {
   };
 }
 
-export const verifyRefreshToken = async (refreshToken: string): Promise<TokenResponse> => {
+export const verifyRefreshToken = async (refreshToken: string)=> {
+  // try {
+  //   const response = await apiClient.post('/auth/verify-token', { refreshToken });
+  //   return response.data;
+  // } catch (error: unknown) {
+  //   console.error("Token verification failed:", error);
+  //   const errorMessage = (error as { response?: { data?: { message?: string } } })?.response?.data?.message;
+  //   throw new Error(errorMessage || 'Failed to verify refresh token');
+  // }
   try {
-    const response = await apiClient.post('/auth/verify-token', { refreshToken });
-    return response.data;
-  } catch (error: unknown) {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/verify-token`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Cookie': `refreshToken=${refreshToken}`,
+      },
+    });
+
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) {
+        throw new Error(data.message || 'Failed to verify refresh token');
+    }
+    
+    return data;
+  } catch (error) {
     console.error("Token verification failed:", error);
-    const errorMessage = (error as { response?: { data?: { message?: string } } })?.response?.data?.message;
-    throw new Error(errorMessage || 'Failed to verify refresh token');
+    // throw new Error('Failed to verify refresh token');
+    throw error;
   }
 };
 
