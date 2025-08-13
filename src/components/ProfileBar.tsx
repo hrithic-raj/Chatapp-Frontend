@@ -1,8 +1,11 @@
 import { useAuthStore } from "@/store/userStore";
 import Image from "next/image";
 import { FiSettings } from "react-icons/fi";
+import { useState } from "react";
+import SettingsModal from "./SettingsModal";
 
 const ProfileBar = () => {
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
       const { user } = useAuthStore();
     return (
         <div className="max-h-[15%] rounded-2xl w-full px-1.5 pb-2">
@@ -16,9 +19,11 @@ const ProfileBar = () => {
                   <span className="text-gray-500">@ {user?.username}</span>
                 </div>
               </div>
-              <div className="flex justify-center items-center w-10 h-10 rounded-full mr-1">
+              <div className="flex justify-center items-center w-10 h-10 rounded-full mr-1" 
+                   onClick={() => setIsSettingsOpen(true)}>
                 <FiSettings size={30} color="#3f4240" className="cursor-pointer"/>
               </div>
+              {isSettingsOpen && <SettingsModal onClose={() => setIsSettingsOpen(false)}/>}
             </div>
         </div>
     );

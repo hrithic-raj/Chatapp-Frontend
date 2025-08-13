@@ -14,6 +14,7 @@ interface AuthState {
   user: User | null;
   setUser: (user: User | null) => void;
   logout: () => void;
+  updateUser: (updates: Partial<User>) => void;
 }
 
 export const useAuthStore = create<AuthState>()(
@@ -22,6 +23,9 @@ export const useAuthStore = create<AuthState>()(
       user: null,
       setUser: (user) => set({ user }),
       logout: () => set({ user: null }),
+      updateUser: (updates) => set((state) => ({
+        user: state.user ? {...state.user, ...updates} : null
+      })),
     }),
     {
       name: "auth-storage",
