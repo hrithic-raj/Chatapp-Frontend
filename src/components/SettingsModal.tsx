@@ -1,5 +1,5 @@
 import { useAuthStore } from "@/store/userStore";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 interface SettingsModalProps {
   onClose: () => void;
