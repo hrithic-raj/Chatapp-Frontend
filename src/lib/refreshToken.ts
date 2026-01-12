@@ -1,17 +1,17 @@
 // lib/refreshToken.ts
-import apiClient from "@/lib/axios.config";
+// import apiClient from "@/lib/axios.config";
 
-export const verifyToken = async (token: string) => {
-  try {
-    const response = await apiClient.post('/auth/verify', null, {
-      headers: { Authorization: `Bearer ${token}` }
-    });
-    return response.data.user;
-  } catch (error) {
-    console.error("verifyToken failed", error)
-    return null;
-  }
-};
+// export const verifyToken = async (token: string) => {
+//   try {
+//     const response = await apiClient.post('/auth/verify', null, {
+//       headers: { Authorization: `Bearer ${token}` }
+//     });
+//     return response.data.user;
+//   } catch (error) {
+//     console.error("verifyToken failed", error)
+//     return null;
+//   }
+// };
 
 // export const refreshAccessToken = async () => {
 //   try {

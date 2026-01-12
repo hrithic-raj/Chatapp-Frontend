@@ -14,12 +14,21 @@ const GoogleAuthButton: React.FC = () => {
         onSuccess: async(credentialResponse)=>{
             try{
                 const res = await apiClient.post('/auth/google',{credentialResponse});
-                const {accessToken} = res.data;
-                if(accessToken){
-                    localStorage.setItem('accessToken', accessToken);
-                    setUser(res.data.user);
-                    navigate.push('/chat');
+                const { accessToken, refreshToken, user } = res.data;
+                    
+                console.log(refreshToken)
+                const cookieRes = await fetch('/api/auth/store-refresh', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ refreshToken }),
+                });
+
+                if (!cookieRes.ok) {
+                throw new Error('Failed to store refresh token');
                 }
+                localStorage.setItem('accessToken', accessToken);
+                setUser(user);
+                navigate.push('/chat');
             }catch(error){
                 console.error("Google auth failed", error);
             }
