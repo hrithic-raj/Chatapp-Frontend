@@ -30,8 +30,16 @@ apiClient.interceptors.response.use(
       try {
         const response = await apiClient.post("/auth/refresh-token", {}, { withCredentials: true });
 
-        const newAccessToken = response.data.newAccessToken;
-        const user = response.data.user;
+        // const newAccessToken = response.data.newAccessToken;
+        // const user = response.data.user;
+        const refreshRes = await axios.post(
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/refresh-token`,
+          {},
+          { withCredentials: true }
+        );
+
+        const { newAccessToken, user } = refreshRes.data;
+
 
         // Storing new accessToken is the localStorage
         localStorage.setItem("accessToken", newAccessToken);
