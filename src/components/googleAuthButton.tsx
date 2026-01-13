@@ -46,7 +46,7 @@ const GoogleAuthButton: React.FC = () => {
     <div className='flex flex-col justify-center items-center'>
         <button
             onClick={()=>handleGoogleAuth()}
-            className='w-[311px] h-[43px] flex justify-center items-center space-x-3 rounded-[15px] border-2 border-[#46cec2] cursor-pointer'
+            className='w-77.75 h-10.75 flex justify-center items-center space-x-3 rounded-[15px] border-2 border-[#46cec2] cursor-pointer'
         >
             <Image 
                 src="/GoogleLogo.png" 
