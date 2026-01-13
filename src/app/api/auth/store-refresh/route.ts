@@ -18,7 +18,7 @@ console.log('Setting refresh token cookie');
     name: 'refreshToken',
     value: refreshToken,
     httpOnly: true,
-    secure: false,
+    secure: true,
     sameSite: 'lax',
     path: '/',
     maxAge: 60 * 60 * 24 * 7,
