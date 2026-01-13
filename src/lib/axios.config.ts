@@ -28,12 +28,12 @@ apiClient.interceptors.response.use(
     if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
       try {
-        const response = await apiClient.post("/auth/refresh-token", {}, { withCredentials: true });
+        // const response = await apiClient.post("/auth/refresh-token", {}, { withCredentials: true });
 
         // const newAccessToken = response.data.newAccessToken;
         // const user = response.data.user;
         const refreshRes = await axios.post(
-          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/refresh-token`,
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/refresh-token`,
           {},
           { withCredentials: true }
         );
