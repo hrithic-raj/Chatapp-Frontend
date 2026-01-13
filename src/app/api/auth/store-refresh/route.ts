@@ -19,7 +19,7 @@ console.log('Setting refresh token cookie');
     value: refreshToken,
     httpOnly: true,
     secure: true,
-    sameSite: 'lax',
+    sameSite: 'none',
     path: '/',
     maxAge: 60 * 60 * 24 * 7,
   });
