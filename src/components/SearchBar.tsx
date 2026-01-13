@@ -56,7 +56,7 @@ const SearchBar = () => {
 
             {/* Display search results */}
             {users.length > 0 && (
-                <div className="absolute w-full mt-2 max-h-[400px] bg-gray-100 rounded-lg shadow-md overflow-auto">
+                <div className="absolute w-full mt-2 max-h-100 bg-gray-100 rounded-lg shadow-md overflow-auto">
                     {users.map((user: IUser) => (
                         <div
                             key={user._id}
