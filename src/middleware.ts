@@ -13,7 +13,7 @@ export async function middleware(req: NextRequest) {
         return NextResponse.next()
     }
 
-    const refreshToken = req.cookies.get('refreshToken')?.value
+    const refreshToken = req.cookies.get('chat_refreshToken')?.value
     console.log("refreshtoken kitiyallodaa", refreshToken)
     if (!refreshToken) {
         if (pathname !== '/login') {
