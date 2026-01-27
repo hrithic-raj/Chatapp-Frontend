@@ -28,7 +28,7 @@ export const verifyRefreshToken = async (refreshToken: string)=> {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Cookie': `refreshToken=${refreshToken}`,
+        'Cookie': `chat_refreshToken=${refreshToken}`,
       },
     });
 
