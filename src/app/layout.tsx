@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { Toaster } from "sonner";
 import QueryProvider from "@/lib/query-provider";
 import {GoogleOAuthProvider} from '@react-oauth/google';
 // import Sidebar from "@/components/Sidebar";
@@ -37,6 +38,7 @@ export default function RootLayout({
             {/* <InitAuth /> */}
             {/* <Sidebar /> */}
             <main className="flex-1">{children}</main>
+            <Toaster position="top-center" richColors />
           </QueryProvider>
         </GoogleOAuthProvider>
       </body>

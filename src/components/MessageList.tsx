@@ -7,10 +7,12 @@ import { useChatStore } from '@/store/chatStore';
 import { getChatById } from '@/services/chatService';
 import { useAuthStore } from '@/store/userStore';
 import { useEffect, useRef } from "react";
+import { useRouter } from "next/navigation";
 
 import Image from "next/image";
 
 import type { Message, User } from "@/types/chat";
+import { ChevronLeft } from "lucide-react";
 
 const MessageList = () => {
     const {
@@ -26,6 +28,7 @@ const MessageList = () => {
 
     const { user } = useAuthStore();
     const messagesEndRef = useRef<HTMLDivElement | null>(null);
+    const router = useRouter();
 
     // const { data: chat, isLoading:chatLoading } = useQuery({
     //     queryKey: ['chat', selectedChatId],
@@ -109,12 +112,18 @@ const MessageList = () => {
     return (
         <div className="flex flex-col h-full overflow-hidden">
       {/* Chat Header */}
-      <div className="max-h-20 border-b py-2 flex items-center space-x-3 shrink-0">
+      <div className="max-h-20 border-b py-2 flex items-center shrink-0">
+        <button
+          onClick={() => router.push("/chat")}
+          className="md:hidden cursor-pointer"
+        >
+          <ChevronLeft size={35} className="text-gray-500"/>
+        </button>
         <Image 
           src={chatPartner?.profilePicture || '/default-avatar.png'} 
           width={50} 
           height={50} 
-          className="rounded-full ml-2"
+          className="rounded-full md:ml-2 mr-3"
           alt="Chat partner avatar"
         />
         <span className="text-2xl text-black">{chatPartner?.name}</span>
